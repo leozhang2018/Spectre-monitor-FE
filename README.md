@@ -1,5 +1,5 @@
 # Spectre-monitor-dashboard
-### Spectre-monitor 前端面板模块
+### Spectre-monitor 前端 面板模块
 
 * 安装
 
