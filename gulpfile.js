@@ -66,6 +66,10 @@ gulp.task('watch', ['build'], function() {
   gulp.watch(paths.script, function() {
     runSequence('script')
   })
+  gulp.watch(paths.page, function() {
+    runSequence('page')
+  })
+
 })
 
 gulp.task('build', ['clean'], function(cb) {
