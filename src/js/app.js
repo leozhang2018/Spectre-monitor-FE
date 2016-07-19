@@ -2,7 +2,7 @@
 		var info = [];
 		var drawGraph = function() {
 		    $.ajax({
-		        url: 'http://192.168.2.1/api/meta_json',
+		        url: 'http://127.0.0.1/index.php/api/meta_json',
 		        type: 'GET',
 		        async: true,
 		        cache: false,
@@ -59,7 +59,8 @@
 		var options = {
 		    chart: {
 		        type: 'column', //指定图表的类型，默认是折线图（line）
-		        renderTo: "container",
+		        renderTo: "domains-container",
+		        //背景颜色
 		        backgroundColor: '#222632',
 		        // marginBottom:'10px',
 		    },
@@ -81,6 +82,8 @@
 		    },
 		    colors: ['#ff2d77', '#ff2d77', '#ff2d77', '#ff2d77', '#ff2d77', '#ff2d77', '#ff2d77', '#ff2d77', '#ff2d77', '#ff2d77'],
 		    xAxis: { //指定x轴分组
+		        //x轴颜色
+		        lineColor: 'rgba(217,227,239,.4)',
 		        type: 'category',
 		        // gridLineColor: '#3d4653',
 		        tickWidth: 0,
@@ -91,9 +94,12 @@
 		                fontSize: '10px',
 		                fontFamily: 'Avenir Next Condensed,Alegreya Sans'
 		            }
-		        }
+		        },
+
 		    },
 		    yAxis: { //指定y轴的标题
+		        //隐藏网格线
+		        gridLineWidth: 0,
 		        gridLineColor: '#3d4653',
 		        min: 0,
 		        title: {
@@ -155,4 +161,89 @@
 		$(document).ready(function() {
 		    drawGraph();
 		    setInterval("drawGraph();", 600000);
+		});
+
+
+		$(function() {
+		    $('#traffic-container').highcharts({
+		        chart: {
+		            type: 'areaspline',
+		            backgroundColor: '#222632'
+		        },
+		        title: {
+		            // text: null
+		            text: "Traffic of network",
+		            style: {
+		                fontSize: '18px',
+		                fontWeight: '500',
+		                fontFamily: 'Avenir Next Condensed,Alegreya Sans',
+		                color: '#6b717d'
+		            }
+		        },
+		        legend: {
+		            enabled: false
+		                // layout: 'vertical',
+		                // align: 'left',
+		                // verticalAlign: 'top',
+		                // x: 150,
+		                // y: 100,
+		                // floating: true,
+		                // borderWidth: 1,
+		                // backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+		        },
+		        xAxis: {
+		            //刻度宽度
+		            tickWidth: 0,
+		            //x轴颜色
+		            lineColor: 'rgba(217,227,239,.4)',
+		            categories: [
+		                '9:00',
+		                '10:00',
+		                '11:00',
+		                '12:00',
+		                '13:00',
+		                '14:00',
+		                '15:00'
+		            ],
+		            // plotBands: [{ // visualize the weekend
+		            //     from: 4.5,
+		            //     to: 6.5,
+		            //     color: 'rgba(68, 170, 213, .2)'
+		            // }],
+
+		            labels: {
+		                style: {
+		                    fontSize: '10px',
+		                    fontFamily: 'Avenir Next Condensed,Alegreya Sans'
+		                }
+		            }
+
+		        },
+		        yAxis: {
+		            title: {
+		                enabled: false
+		            },
+		            gridLineWidth: 0
+		        },
+		        tooltip: {
+		            shared: true,
+		            valueSuffix: ' MB'
+		        },
+		        credits: {
+		            enabled: false
+		        },
+		        plotOptions: {
+		            areaspline: {
+		                fillOpacity: 0.5
+		            }
+		        },
+		        series: [{
+		            name: 'Download',
+		            color: '#ff2d77',
+		            data: [300, 400, 500, 600, 800, 1000]
+		        }, {
+		            name: 'Upload',
+		            data: [200, 350, 400, 358, 354, 500]
+		        }]
+		    });
 		});
