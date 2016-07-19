@@ -33,10 +33,11 @@
 		            };
 		            //副标题
 		            var subtitle = {
-		                text: 'Collect time ' + startTimestampHour + ':' + startTimestampMinutes + ' - ' + endTimestampHour + ':' + endTimestampMinutes,
+		                text: 'Collect time: ' + startTimestampHour + ':' + startTimestampMinutes + ' - ' + endTimestampHour + ':' + endTimestampMinutes,
 		                style: {
 		                    color: '#6b717d',
 		                    fontSize: '12px',
+												fontWeight: '600',
 		                    fontFamily: 'Avenir Next Condensed,Alegreya Sans'
 		                }
 		            };
@@ -175,11 +176,20 @@
 		            text: "Traffic of network",
 		            style: {
 		                fontSize: '18px',
-		                fontWeight: '500',
+		                // fontWeight: '500',
 		                fontFamily: 'Avenir Next Condensed,Alegreya Sans',
 		                color: '#6b717d'
 		            }
 		        },
+						subtitle: {
+												text: 'interface:' + ' '+'p2p1',
+												style: {
+														color: '#6b717d',
+														fontSize: '12px',
+														fontWeight: '600',
+														fontFamily: 'Avenir Next Condensed,Alegreya Sans'
+												}
+										},
 		        legend: {
 		            enabled: false
 		                // layout: 'vertical',
