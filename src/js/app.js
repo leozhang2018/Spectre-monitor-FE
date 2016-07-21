@@ -36,6 +36,13 @@
 
 		}
 
+		//流量统计
+		var trafficStatistics = function() {
+
+
+
+		}
+
 
 		//获取网络接口
 		var getInterface = function(data) {
@@ -179,22 +186,22 @@
 
 		            /*Debug start*/
 		            // interface:wlan
-								console.log("interface:")
+		            console.log("interface:")
 		            console.log(data[0][1]);
 		            // wlan0 下载
-								console.log("wlan0 下载:");
+		            console.log("wlan0 下载:");
 		            console.log(data[0][1].wlan0[0].download);
 		            // wlan0 上传
-								console.log("wlan0 上传:");
+		            console.log("wlan0 上传:");
 		            console.log(data[0][1].wlan0[1].upload);
 		            // wlan0 时间戳
-								console.log("wlan0 时间戳:");
+		            console.log("wlan0 时间戳:");
 		            console.log(data[0][1].wlan0[2].timeStamp);
 		            // wlan0 时间戳数组
-								console.log("wlan0 时间戳数组:");
+		            console.log("wlan0 时间戳数组:");
 		            console.log(timeStampArray);
 		            //网络接口
-								console.log("网络接口:");
+		            console.log("网络接口:");
 		            console.log(getInterface(data));
 
 		        },
