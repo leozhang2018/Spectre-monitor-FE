@@ -37,9 +37,13 @@
 		}
 
 		//流量统计
-		var trafficStatistics = function() {
-
-
+		var trafficStatistics = {
+		    Receive: function(traffic_data) {
+		        $(".receive").text(traffic_data);
+		    },
+		    Transmit: function(traffic_data) {
+		        $(".transmit").text(traffic_data);
+		    }
 
 		}
 
@@ -131,7 +135,7 @@
 		            chart.addSeries(data_series);
 		        },
 		        error: function(e) {
-		            alert("fail");
+		            alert("Get domain failed");
 		        }
 		    });
 		};
@@ -203,6 +207,8 @@
 		            //网络接口
 		            console.log("网络接口:");
 		            console.log(getInterface(data));
+		            trafficStatistics.Receive((data[0][1].wlan0[0].download[9] / 1000));
+								trafficStatistics.Transmit((data[0][1].wlan0[1].upload[9]));
 
 		        },
 		        error: function(e) {
@@ -380,6 +386,6 @@
 		$(document).ready(function() {
 		    domainGraph();
 		    trafficGraph();
-		    // setInterval("domainGraph();", 10000);
-		    // setInterval("trafficGraph();", 10000);
+		    setInterval("domainGraph();", 10000);
+		    setInterval("trafficGraph();", 10000);
 		});
