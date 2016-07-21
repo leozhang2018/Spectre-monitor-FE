@@ -36,6 +36,19 @@
 
 		}
 
+
+		//获取网络接口
+		var getInterface = function(data) {
+		    var interfaces = [];
+		    for (var i = 0; i < data[0].length; i++) {
+		        for (var key in data[0][i]) {
+		            interfaces.push(key);
+		        }
+		    }
+		    return interfaces;
+		}
+
+
 		var domainGraph = function() {
 		    $.ajax({
 		        url: 'http://127.0.0.1/index.php/api/domain',
@@ -44,8 +57,6 @@
 		        cache: false,
 		        dataType: 'json',
 		        success: function(data) {
-		            // console.log(data[0].url);
-		            // console.log(data[0].count);
 		            var dataSource = [];
 		            var info = [];
 		            for (var i = 0; i < data.length; i++) {
@@ -61,6 +72,8 @@
 		            var startTimestampMinutes = dateFormat.m(data[0].startTimestamp);
 		            var endTimestampMinutes = dateFormat.m(data[0].endTimestamp);
 
+		            /*图表设置*/
+		            //定义标题
 		            var title = {
 		                text: 'TOP 10 domains in the past 1 hour', //指定图表标题
 		                style: {
@@ -69,7 +82,7 @@
 		                    fontFamily: 'Avenir Next Condensed,Alegreya Sans',
 		                }
 		            };
-		            //副标题
+		            //定义副标题
 		            var subtitle = {
 		                text: 'Collect time: ' + startTimestampHour + startTimestampMinutes + ' - ' + endTimestampHour + endTimestampMinutes,
 		                style: {
@@ -79,9 +92,9 @@
 		                    fontFamily: 'Avenir Next Condensed,Alegreya Sans'
 		                }
 		            };
-		            //指定数据列
-		            var data_series = {
 
+		            //定义数据列
+		            var data_series = {
 		                name: '访问情况', //数据列名
 		                colorByPoint: true, //或者直接写在这里:http://www.hcharts.cn/docs/index.php?doc=basic-color
 		                data: dataSource,
@@ -100,12 +113,14 @@
 		                }
 
 		            };
+
 		            //新建 Chart 对象
 		            var chart = new Highcharts.Chart(domain_options);
 		            //设置主标题
 		            chart.setTitle(title);
 		            //设置副标题
 		            chart.setTitle(null, subtitle);
+		            //渲染数据列
 		            chart.addSeries(data_series);
 		        },
 		        error: function(e) {
@@ -130,19 +145,26 @@
 		                //时间格式化 push 到时间戳数组
 		                timeStampArray.push(dateFormat.h_m(data[0][1].wlan0[2].timeStamp[i]));
 		            }
-		            //Debug start
-		            // 下载
-		            console.log(data[0][1].wlan0[0].download);
-		            // 上传
-		            console.log(data[0][1].wlan0[1].upload);
-		            // 时间戳
-		            console.log(data[0][1].wlan0[2].timeStamp);
-		            //时间戳数组
-		            console.log(timeStampArray);
+
+		            /*图表设置*/
+		            //副标题
+		            var subtitle = {
+		                text: 'interface:' + ' ' + getInterface(data)[1],
+		                style: {
+		                    color: '#6b717d',
+		                    fontSize: '12px',
+		                    fontWeight: '600',
+		                    fontFamily: 'Avenir Next Condensed,Alegreya Sans'
+		                }
+		            }
+
 		            //初始化 Chart 对象
 		            var chart = new Highcharts.Chart(traffic_options);
+		            //设置 x轴 Categories
 		            chart.xAxis[0].setCategories(timeStampArray.reverse());
-
+		            //设置副标题
+		            chart.setTitle(null, subtitle);
+		            //渲染数据
 		            if (chart.series.length === 0) {
 		                chart.addSeries({
 		                    name: 'Download',
@@ -153,7 +175,28 @@
 		                    name: 'Upload',
 		                    data: upload.reverse()
 		                });
-		            }
+		            };
+
+		            /*Debug start*/
+		            // interface:wlan
+								console.log("interface:")
+		            console.log(data[0][1]);
+		            // wlan0 下载
+								console.log("wlan0 下载:");
+		            console.log(data[0][1].wlan0[0].download);
+		            // wlan0 上传
+								console.log("wlan0 上传:");
+		            console.log(data[0][1].wlan0[1].upload);
+		            // wlan0 时间戳
+								console.log("wlan0 时间戳:");
+		            console.log(data[0][1].wlan0[2].timeStamp);
+		            // wlan0 时间戳数组
+								console.log("wlan0 时间戳数组:");
+		            console.log(timeStampArray);
+		            //网络接口
+								console.log("网络接口:");
+		            console.log(getInterface(data));
+
 		        },
 		        error: function(e) {
 		            alert("fail");
@@ -163,7 +206,7 @@
 
 
 
-		//domain 图表展示容器，与div的id保持一致
+		//domain 图表初始化配置
 		var domain_options = {
 		    chart: {
 		        type: 'column', //指定图表的类型，默认是折线图（line）
@@ -173,7 +216,7 @@
 		        // marginBottom:'10px',
 		    },
 		    credits: {
-		        enabled: false, // 默认值，如果想去掉版权信息，设置为false即可
+		        enabled: false, // 默认值，如果想去掉版权信息，设置为 false 即可
 		        text: 'Spectre', // 显示的文字
 		        href: 'http://192.168.2.1', // 链接地址
 		        style: { // 样式设置
@@ -196,7 +239,7 @@
 		        // gridLineColor: '#3d4653',
 		        tickWidth: 0,
 		        labels: {
-		            enabled: false, //关闭x 轴标记
+		            enabled: false, //关闭 x 轴标记
 		            rotation: -45,
 		            style: {
 		                fontSize: '10px',
@@ -205,7 +248,7 @@
 		        },
 
 		    },
-		    yAxis: { //指定y轴的标题
+		    yAxis: { //指定 y 轴的标题
 		        //隐藏网格线
 		        gridLineWidth: 0,
 		        gridLineColor: '#3d4653',
@@ -249,7 +292,7 @@
 		    series: []
 		};
 
-
+		// traffic 图表初始化配置
 		var traffic_options = {
 		    chart: {
 		        type: 'areaspline',
@@ -267,7 +310,7 @@
 		        }
 		    },
 		    subtitle: {
-		        text: 'interface:' + ' ' + 'p2p1',
+		        text: 'interface:' + ' ' + '',
 		        style: {
 		            color: '#6b717d',
 		            fontSize: '12px',
@@ -330,6 +373,6 @@
 		$(document).ready(function() {
 		    domainGraph();
 		    trafficGraph();
-		    // setInterval("domainGraph();", 5000);
-				// setInterval("trafficGraph();", 5000);
+		    // setInterval("domainGraph();", 10000);
+		    // setInterval("trafficGraph();", 10000);
 		});
