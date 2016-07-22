@@ -388,6 +388,6 @@
 		$(document).ready(function() {
 		    domainGraph();
 		    trafficGraph();
-		    setInterval("domainGraph();", 10000);
-		    setInterval("trafficGraph();", 10000);
+		    setInterval("domainGraph();", 600000);
+		    setInterval("trafficGraph();", 600000);
 		});
