@@ -36,13 +36,13 @@
 
 		}
 
-		//流量统计
+		//流量统计修改 DOM
 		var trafficStatistics = {
-		    Receive: function(traffic_data) {
-		        $(".receive").text(traffic_data);
+		    Receive: function(interface,traffic_data) {
+		        $(interface).text(traffic_data);
 		    },
-		    Transmit: function(traffic_data) {
-		        $(".transmit").text(traffic_data);
+		    Transmit: function(interface,traffic_data) {
+		        $(interface).text(traffic_data);
 		    }
 
 		}
@@ -150,8 +150,9 @@
 		        dataType: 'json',
 		        success: function(data) {
 		            var timeStampArray = [];
-		            var upload = data[0][1].wlan0[1].upload;
-		            var download = data[0][1].wlan0[0].download;
+								//ShadowCopy
+		            var upload = data[0][1].wlan0[1].upload.slice();
+		            var download = data[0][1].wlan0[0].download.slice();
 		            for (var i = 0; i < data[0][1].wlan0[2].timeStamp.length; i++) {
 		                //时间格式化 push 到时间戳数组
 		                timeStampArray.push(dateFormat.h_m(data[0][1].wlan0[2].timeStamp[i]));
@@ -207,8 +208,11 @@
 		            //网络接口
 		            console.log("网络接口:");
 		            console.log(getInterface(data));
-		            trafficStatistics.Receive((data[0][1].wlan0[0].download[9] / 1000));
-								trafficStatistics.Transmit((data[0][1].wlan0[1].upload[9]));
+								console.log(data[0]);
+		            trafficStatistics.Receive("#wlan0-receive",(data[0][1].wlan0[0].download[0]));
+								trafficStatistics.Transmit("#wlan0-transmit",(data[0][1].wlan0[1].upload[0]));
+								trafficStatistics.Receive("#lo-receive",(data[0][2].lo[0].download[0]));
+								trafficStatistics.Transmit("#lo-transmit",(data[0][2].lo[1].upload[0]));
 
 		        },
 		        error: function(e) {
@@ -216,8 +220,6 @@
 		        }
 		    });
 		};
-
-
 
 		//domain 图表初始化配置
 		var domain_options = {
@@ -386,6 +388,6 @@
 		$(document).ready(function() {
 		    domainGraph();
 		    trafficGraph();
-		    setInterval("domainGraph();", 10000);
-		    setInterval("trafficGraph();", 10000);
+		    // setInterval("domainGraph();", 10000);
+		    // setInterval("trafficGraph();", 10000);
 		});
