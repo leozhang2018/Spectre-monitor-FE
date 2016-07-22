@@ -15,6 +15,7 @@ body {
     color: #5a6779;
     line-height: 1;
     background: #1f222c;
+    overflow: hidden;
 }
 a {
     text-decoration: none;
