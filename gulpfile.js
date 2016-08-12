@@ -53,7 +53,6 @@ gulp.task('script', function() {
 
 gulp.task('page', function() {
   return gulp.src(paths.page, { base: 'src' })
-    // .pipe(mustache())
     .pipe(rename({ extname: '.html' }))
     .pipe(gulp.dest('./dist'))
 })
